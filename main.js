@@ -15,8 +15,8 @@ var bricksLeft = 0;
 
 const PADDLE_WIDTH = 100;
 const PADDLE_THICKNESS = 10;
-const PADDLE_DIST_FROM_EDGE = 60;
-var paddleX = 400;
+const PADDLE_DIST_FROM_EDGE = 40;
+var paddleX = 300;
 
 let rightArrowPressed = false;
 let leftArrowPressed = false;
@@ -92,7 +92,6 @@ document.addEventListener("keyup", keyUpHandler, false);
 
 
 
-
 function brickReset() {
     bricksLeft = 0;
     var i;
@@ -126,6 +125,8 @@ function updateAll() {
 function ballReset() {
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
+    ballSpeedX = 5;
+    ballSpeedY = 7;
 }
 
 function ballMove() {
