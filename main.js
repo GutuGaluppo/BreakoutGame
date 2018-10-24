@@ -13,19 +13,19 @@ const BRICK_ROWS = 14;
 var brickGrid = new Array(BRICK_COLS * BRICK_ROWS);
 var bricksLeft = 0;
 
-// var score = 0;
-// var lives = 3;
+var score = 0;
+var lives = 3;
 
 const PADDLE_WIDTH = 100;
 const PADDLE_THICKNESS = 10;
 const PADDLE_DIST_FROM_EDGE = 40;
-var paddleX = 300;
+var paddleX = 350;
 
 let rightArrowPressed = false;
 let leftArrowPressed = false;
 let spaceKeyPressed = false;
 
-var canvas, canvasContext;
+var canvas, ctx;
 
 // ====================>> MOVE THE PADDLE USING MOUSE
 
@@ -42,34 +42,10 @@ var canvas, canvasContext;
 //   paddleX = mouseX - PADDLE_WIDTH / 2;
 // }
 
-// ===================================================
+// =================================================
 
 // +++++=== MOVE THE PADDLE USING ARROW KEYS
-// ==============================================
-
-// var rightArrowPressed = false;
-// var leftArrowPressed = false;
-
-//document.addEventListener("keydown", keyDownHandler, false);
-// document.addEventListener("keyup", keyUpHandler, false);
-
-// function keyDownHandler(e) {
-//     if (e.keyCode === 39) {
-//         rightArrowPressed = true;
-//     } else if (e.keyCode === 37) {
-//         leftArrowPressed = true;
-//     } else if (e.keyCode === 32) {
-//         spaceKeyPressed = true;
-//     }
-// }
-// function keyUpHandler(e) {
-//     if (e.keyCode === 39) {
-//         rightArrowPressed = false;
-//     } else if (e.keyCode === 37) {
-//         leftArrowPressed = false;
-//     }
-// }
-
+// =================================================
 
 function keyDownHandler(e) {
     if (e.keyCode === 39) {
@@ -78,9 +54,10 @@ function keyDownHandler(e) {
     else if (e.keyCode === 37) {
         leftArrowPressed = true;
     }
-    // else if (e.keyCode === 32) {
-    //   spaceKeyPressed = true;
-    // }
+    else if (e.keyCode === 32) {
+        spaceKeyPressed = true;
+        ballLaunch()
+    }
 }
 function keyUpHandler(e) {
     if (e.keyCode === 39) {
@@ -109,7 +86,7 @@ function brickReset() {
 
 window.onload = function () {
     canvas = document.getElementById("gameCanvas");
-    canvasContext = canvas.getContext("2d");
+    ctx = canvas.getContext("2d");
 
     var framesPerSecond = 30;
     setInterval(updateAll, 1000 / framesPerSecond);
@@ -127,9 +104,18 @@ function updateAll() {
 
 function ballReset() {
     ballX = canvas.width / 2;
-    ballY = canvas.height / 2;
-    ballSpeedX = 5;
-    ballSpeedY = 7;
+    ballY = canvas.height / 1.09;
+    ballSpeedX = 0;
+    ballSpeedY = 0;
+}
+
+// ======= LAUCH THE BALL ON PRESS SpaceKEY
+
+function ballLaunch() {
+    if (ballSpeedX === 0 && ballSpeedY === 0) {
+        ballSpeedX = -5;
+        ballSpeedY = -7;
+    }
 }
 
 function ballMove() {
@@ -169,11 +155,7 @@ function ballBrickHandling() {
     var ballBrickRow = Math.floor(ballY / BRICK_H);
     var brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
 
-    if (
-        ballBrickCol >= 0 &&
-        ballBrickCol < BRICK_COLS &&
-        ballBrickRow >= 0 &&
-        ballBrickRow < BRICK_ROWS
+    if (ballBrickCol >= 0 && ballBrickCol < BRICK_COLS && ballBrickRow >= 0 && ballBrickRow < BRICK_ROWS
     ) {
         if (isBrickAtColRow(ballBrickCol, ballBrickRow)) {
             brickGrid[brickIndexUnderBall] = false;
@@ -290,26 +272,26 @@ function drawAll() {
 
     colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, "aquamarine");
 
-    // drawScore();
-    // drawLives();
+    drawScore();
+    drawLives();
     drawBricks();
 }
 
 function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
-    canvasContext.fillStyle = fillColor;
-    canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
+    ctx.fillStyle = fillColor;
+    ctx.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
 }
 
 function colorCircle(centerX, centerY, radius, fillColor) {
-    canvasContext.fillStyle = fillColor;
-    canvasContext.beginPath();
-    canvasContext.arc(centerX, centerY, 10, 0, Math.PI * 2, true);
-    canvasContext.fill();
+    ctx.fillStyle = fillColor;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, 10, 0, Math.PI * 2, true);
+    ctx.fill();
 }
 
 function colorText(showWords, textX, textY, fillColor) {
-    canvasContext.fillStyle = fillColor;
-    canvasContext.fillText(showWords, textX, textY);
+    ctx.fillStyle = fillColor;
+    ctx.fillText(showWords, textX, textY);
 }
 
 // THIS GIVES YOU SICK COLORS
@@ -337,6 +319,9 @@ function movingAround() {
         paddleX += paddleSpeed;
     } else if (leftArrowPressed && paddleX > 0) {
         paddleX -= paddleSpeed;
+    }
+    if (ballSpeedX === 0 && ballSpeedY === 0) {
+        ballX = paddleX + PADDLE_WIDTH/2
     }
 }
 
