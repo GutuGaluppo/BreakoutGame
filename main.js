@@ -21,13 +21,28 @@ const PADDLE_THICKNESS = 10;
 const PADDLE_DIST_FROM_EDGE = 40;
 var paddleX = 350;
 
+// SOUND FXs
+
+function ballLost() {
+    var audio = new Audio ('../soundFx/ballLost.wav');
+    audio.play();
+}
+
+function gameOverTrack() {
+    var audio = new Audio ('../soundFx/GameOverTrack.wav');
+    audio.play();
+}
 
 function paddleSound() {
-    var audio = new Audio ('./soundFx/bubble-pop.wav' + wav);
+    var audio = new Audio ('../soundFx/bubble-pop.wav');
     audio.play();
 }
 function brickSound() {
-    var audio = new Audio ('./soundFx/boing1.wav' + wav);
+    var audio = new Audio ('../soundFx/boing1.wav');
+    audio.play();
+}
+function edgSound() {
+    var audio = new Audio ('../soundFx/bubble.wav');
     audio.play();
 }
 
@@ -136,23 +151,28 @@ function ballMove() {
     if (ballX < 0 && ballSpeedX < 0.0) {
         //left
         ballSpeedX *= -1;
+        edgSound();
     }
     if (ballX > canvas.width && ballSpeedX > 0.0) {
         // right
         ballSpeedX *= -1;
+        edgSound();
     }
     if (ballY < 0 && ballSpeedY < 0.0) {
         // top
         ballSpeedY *= -1;
+        edgSound();
     }
     if (ballY > canvas.height) {
         lives--
         // bottom
         ballReset();
+        ballLost();
         if (lives <= 0) {
             brickReset();
             liveReset()
             scoreReset();
+            gameOverTrack();
         }
     }
 }
@@ -208,6 +228,12 @@ function ballBrickHandling() {
     } // end of valid col and row
 } // end of ballBrickHandling func
 
+function win() {
+    if(bricksLeft == 0) [
+        alert("YOU WIN")
+    ]
+}
+
 function ballPaddleHandling() {
     var paddleTopEdgeY = canvas.height - PADDLE_DIST_FROM_EDGE;
     var paddleBottomEdgeY = paddleTopEdgeY + PADDLE_THICKNESS;
@@ -222,14 +248,15 @@ function ballPaddleHandling() {
         // left of the left side of paddle
 
         ballSpeedY *= -1;
-        
+        paddleSound();
+
         var centerOfPaddleX = paddleX + PADDLE_WIDTH / 2;
         var ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
         ballSpeedX = ballDistFromPaddleCenterX * 0.35;
-        
+
         if (bricksLeft == 0) {
             brickReset();
-            paddleSound();
+            win();
         } // out of bricks
     } // ball center inside paddle
 } // end of ballPaddleHandling
@@ -337,25 +364,6 @@ function colorText(showWords, textX, textY, fillColor) {
     ctx.fillText(showWords, textX, textY);
 }
 
-// THIS GIVES YOU SICK COLORS
-// function random_rgba() {
-//   var o = Math.round,
-//     r = Math.random,
-//     s = 255;
-//   return (
-//     "rgba(" +
-//     o(r() * s) +
-//     "," +
-//     o(r() * s) +
-//     "," +
-//     o(r() * s) +
-//     "," +
-//     r().toFixed(1) +
-//     ")"
-//   );
-// }
-
-// var randomColor = random_rgba();
 
 function movingAround() {
     if (rightArrowPressed && paddleX < canvas.width - PADDLE_WIDTH) {
@@ -370,9 +378,7 @@ function movingAround() {
 
 
 
-// ============================================================ STYLE
-
-
+// STYLE 2
 
 
 // var blocks = 10;
