@@ -22,27 +22,38 @@ const PADDLE_DIST_FROM_EDGE = 40;
 var paddleX = 350;
 
 // SOUND FXs
+function soundTrack() {
+    var audio = new Audio('../soundFx/du-hanh.wav');
+    audio.play();
+}
 
 function ballLost() {
-    var audio = new Audio ('../soundFx/ballLost.wav');
+    var audio = new Audio('../soundFx/finalGrunt.wav');
     audio.play();
 }
 
 function gameOverTrack() {
-    var audio = new Audio ('../soundFx/GameOverTrack.wav');
+    var audio = new Audio('../soundFx/GameOverTrack.wav');
     audio.play();
 }
 
 function paddleSound() {
-    var audio = new Audio ('../soundFx/bubble-pop.wav');
+    var audio = new Audio('../soundFx/grunt_1.wav');
     audio.play();
 }
+
 function brickSound() {
-    var audio = new Audio ('../soundFx/boing1.wav');
+    var audio = new Audio('../soundFx/bubble.wav');
     audio.play();
 }
+
+function paddleSoundTennis() {
+    var audio = new Audio('../soundFx/tennisBall.wav');
+    audio.play();
+}
+
 function edgSound() {
-    var audio = new Audio ('../soundFx/bubble.wav');
+    var audio = new Audio('../soundFx/bubble-pop.wav');
     audio.play();
 }
 
@@ -142,6 +153,7 @@ function ballLaunch() {
         ballSpeedX = -5;
         ballSpeedY = -7;
     }
+    soundTrack();
 }
 
 function ballMove() {
@@ -198,6 +210,9 @@ function ballBrickHandling() {
             // console.log(bricksLeft);
             score++;
             brickSound();
+            // if(score > 4) {
+            //     soundTrack();
+            // }
 
             var prevBallX = ballX - ballSpeedX;
             var prevBallY = ballY - ballSpeedY;
@@ -229,7 +244,7 @@ function ballBrickHandling() {
 } // end of ballBrickHandling func
 
 function win() {
-    if(bricksLeft == 0) [
+    if (bricksLeft == 0) [
         alert("YOU WIN")
     ]
 }
@@ -248,6 +263,7 @@ function ballPaddleHandling() {
         // left of the left side of paddle
 
         ballSpeedY *= -1;
+        paddleSoundTennis();
         paddleSound();
 
         var centerOfPaddleX = paddleX + PADDLE_WIDTH / 2;
@@ -256,7 +272,7 @@ function ballPaddleHandling() {
 
         if (bricksLeft == 0) {
             brickReset();
-            win();
+            // win();
         } // out of bricks
     } // ball center inside paddle
 } // end of ballPaddleHandling
@@ -300,14 +316,11 @@ function drawBricks() {
 
 // GRADIENT COLOR 
 
-// function gradientColor(){
-// var gradient = ctx.createLinearGradient(0, 0, 200, 0);
-// gradient.addColorStop(0, 'purple');
-// gradient.addColorStop(1, 'aqua');
-// ctx.fillStyle = gradient;
-// ctx.fillRect(10, 10, 200, 100);
+// function gradientColor() {
+//     var grd = ctx.createRadialGradient(75, 50, 5, 90, 60, 100);
+//     grd.addColorStop(0, "black");
+//     grd.addColorStop(1, "aqua");
 // }
-
 
 
 // ======== SCORE ==========
