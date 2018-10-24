@@ -3,9 +3,9 @@ body {
     margin: 0;
   }
   
-  #img {
-    background: 
-    linear-gradient(135deg, aqua, black);
+#img {
+    /*background: 
+    linear-gradient(135deg, aqua, black);*/
 }
 
 canvas {
@@ -22,11 +22,11 @@ canvas {
 
 p {
     text-align: center;
-    font-family: "Trebuchet MS", sans-serif;
+    font-family: 'Poiret One', cursive;
 }
 
 #title{
-    font-size: 2em;
+    font-size: 3em;
 }
 
 

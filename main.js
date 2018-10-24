@@ -21,11 +21,22 @@ const PADDLE_THICKNESS = 10;
 const PADDLE_DIST_FROM_EDGE = 40;
 var paddleX = 350;
 
+
+function paddleSound() {
+    var audio = new Audio ('./soundFx/bubble-pop.wav' + wav);
+    audio.play();
+}
+function brickSound() {
+    var audio = new Audio ('./soundFx/boing1.wav' + wav);
+    audio.play();
+}
+
 let rightArrowPressed = false;
 let leftArrowPressed = false;
 let spaceKeyPressed = false;
 
 var canvas, ctx;
+
 
 // ====================>> MOVE THE PADDLE USING MOUSE
 
@@ -135,9 +146,14 @@ function ballMove() {
         ballSpeedY *= -1;
     }
     if (ballY > canvas.height) {
+        lives--
         // bottom
         ballReset();
-        brickReset();
+        if (lives <= 0) {
+            brickReset();
+            liveReset()
+            scoreReset();
+        }
     }
 }
 
@@ -155,12 +171,13 @@ function ballBrickHandling() {
     var ballBrickRow = Math.floor(ballY / BRICK_H);
     var brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
 
-    if (ballBrickCol >= 0 && ballBrickCol < BRICK_COLS && ballBrickRow >= 0 && ballBrickRow < BRICK_ROWS
-    ) {
+    if (ballBrickCol >= 0 && ballBrickCol < BRICK_COLS && ballBrickRow >= 0 && ballBrickRow < BRICK_ROWS) {
         if (isBrickAtColRow(ballBrickCol, ballBrickRow)) {
             brickGrid[brickIndexUnderBall] = false;
             bricksLeft--;
             // console.log(bricksLeft);
+            score++;
+            brickSound();
 
             var prevBallX = ballX - ballSpeedX;
             var prevBallY = ballY - ballSpeedY;
@@ -205,13 +222,14 @@ function ballPaddleHandling() {
         // left of the left side of paddle
 
         ballSpeedY *= -1;
-
+        
         var centerOfPaddleX = paddleX + PADDLE_WIDTH / 2;
         var ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
         ballSpeedX = ballDistFromPaddleCenterX * 0.35;
-
+        
         if (bricksLeft == 0) {
             brickReset();
+            paddleSound();
         } // out of bricks
     } // ball center inside paddle
 } // end of ballPaddleHandling
@@ -229,6 +247,8 @@ function moveAll() {
 function rowColToArrayIndex(col, row) {
     return col + BRICK_COLS * row;
 }
+
+// DRAWING BRICKS
 
 function drawBricks() {
     for (var eachRow = 0; eachRow < BRICK_ROWS; eachRow++) {
@@ -248,21 +268,44 @@ function drawBricks() {
     } // end of for each row
 } // end of drawBricks func
 
+
+// =================================================
+
+// GRADIENT COLOR 
+
+// function gradientColor(){
+// var gradient = ctx.createLinearGradient(0, 0, 200, 0);
+// gradient.addColorStop(0, 'purple');
+// gradient.addColorStop(1, 'aqua');
+// ctx.fillStyle = gradient;
+// ctx.fillRect(10, 10, 200, 100);
+// }
+
+
+
 // ======== SCORE ==========
 
 function drawScore() {
-    ctx.font = "11px Arial";
+    ctx.font = "bold 15px Poiret One";
     ctx.fillStyle = "#E0E2E4";
-    ctx.fillText("Score: " + score, 5, 15);
+    ctx.fillText("Score: " + score, 10, 20);
+}
+function scoreReset() {
+    score = 0;
 }
 
 // =========== LIVES ============
 
 function drawLives() {
-    ctx.font = "11px Arial";
+    ctx.font = "bold 15px Poiret One";
     ctx.fillStyle = "#E0E2E4";
-    ctx.fillText("Lives: " + lives, canvas.width - 43, 15);
+    ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
+
+function liveReset() {
+    lives = 3;
+}
+
 
 
 function drawAll() {
@@ -270,7 +313,7 @@ function drawAll() {
 
     colorCircle(ballX, ballY, 10, "chartreuse"); // draw ball
 
-    colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, "aquamarine");
+    colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, "DarkTurquoise");
 
     drawScore();
     drawLives();
@@ -320,14 +363,14 @@ function movingAround() {
     } else if (leftArrowPressed && paddleX > 0) {
         paddleX -= paddleSpeed;
     }
-    if (ballSpeedX === 0 && ballSpeedY === 0) {
-        ballX = paddleX + PADDLE_WIDTH/2
+    if (ballSpeedX === 0 && ballSpeedY === 0) { // PLACING THE BALL CENTRILYZED ON THE PADDLE
+        ballX = paddleX + PADDLE_WIDTH / 2
     }
 }
 
 
 
-
+// ============================================================ STYLE
 
 
 
