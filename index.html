@@ -3,7 +3,7 @@
 ​
 
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -13,14 +13,24 @@
 ​
 
 <body>
-  <p id='title' style="color: purple; text-shadow: 2px 3px 5px darkturquoise;">{ Breakout }</p>
-  <div id="img"></div>
+<!-- <img src="../Brick_Breaker_Gutu/img/Abstract-Wallpapers.jpg" alt="background"> --> -->
+  <h1 id='title' class='layout' style="margin: 0;">{ Breakout }</h1>
+  <div class='flex'>
+    <div class="p">
+      <p class='layout'>Press SPACE to START</p>
+      <p class='layout'>Press &#60;-- to slade LEFT || Press --&#62; to slade RIGHT</p>
+    </div>
+    <div class="btn">
+      <button id="musicBtn" class="button btn1">music</button>
+      <button id="fxBtn" class="button btn2">fx</button>
+    </div>
+  </div>
+
   <div id='canvas-container'>
     <canvas id="gameCanvas" width="800" height="600"></canvas>
   </div>
   ​
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <script src="main.js"></script>
 </body>
 ​

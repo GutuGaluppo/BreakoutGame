@@ -9,7 +9,7 @@ const BRICK_W = 80;
 const BRICK_H = 20;
 const BRICK_GAP = 4;
 const BRICK_COLS = 10;
-const BRICK_ROWS = 14;
+const BRICK_ROWS = 10;
 var brickGrid = new Array(BRICK_COLS * BRICK_ROWS);
 var bricksLeft = 0;
 
@@ -22,14 +22,18 @@ const PADDLE_DIST_FROM_EDGE = 40;
 var paddleX = 350;
 
 // SOUND FXs
-function soundTrack() {
-    var audio = new Audio('../soundFx/du-hanh.wav');
-    audio.play();
-}
+
+// function soundTrack() {
+//     var audio = new Audio('../soundFx/futuristic-game-ambience.wav');
+//     audio.play();
+//     audio.volume = 0.3;
+//     audio.loop = true;
+// }
 
 function ballLost() {
     var audio = new Audio('../soundFx/finalGrunt.wav');
     audio.play();
+    audio.volume = 0.4;
 }
 
 function gameOverTrack() {
@@ -40,22 +44,79 @@ function gameOverTrack() {
 function paddleSound() {
     var audio = new Audio('../soundFx/grunt_1.wav');
     audio.play();
-}
-
-function brickSound() {
-    var audio = new Audio('../soundFx/bubble.wav');
-    audio.play();
+    audio.volume = 0.5;
 }
 
 function paddleSoundTennis() {
     var audio = new Audio('../soundFx/tennisBall.wav');
     audio.play();
 }
+function brickSound() {
+    var audio = new Audio('../soundFx/bubble.wav');
+    audio.play();
+}
+
+function brickSoundTennis() {
+    var audio = new Audio('../soundFx/tennisBall2.wav');
+    audio.play();
+    audio.volume = 0.2;
+}
+
 
 function edgSound() {
     var audio = new Audio('../soundFx/bubble-pop.wav');
     audio.play();
+    audio.volume = 0.4;
 }
+
+// CHANGE BUTTON 
+
+$("#musicBtn").click(function () {
+    $('.btn1').attr('class', 'active');
+});
+
+$("#fxBtn").click(function () {
+    if ($('.btn2').attr('class', 'active')) {
+
+    };
+
+});
+
+// $("#musicBtn").click(function(){
+//     $("#musicBtn .button").removeClass('active');
+//     $(this).toggleClass('active'); 
+// });
+
+// PUSE/PLAY MUSIC
+
+
+let musicPlaying = false;
+
+
+// PLAYS MUSIC IF musicPlaying IS FALSE. PAUSE IF TRUE
+function soundTrack() {
+    audio = new Audio("../soundFx/futuristic-game-ambience.wav");
+    audio.loop = true;
+}
+
+
+// TOGGLING BETWEEN SETTING musicPlaying TO TRUE OR FALSE
+
+function musicToggle() {
+    audio.volume = 0.3;
+    audio.play()
+}
+
+// PAUSE EFX
+
+// $('#fxBtn').click(function() {
+//     ballLost();
+//     gameOverTrack();
+//     paddleSound();
+//     paddleSoundTennis();
+//     brickSound();
+//     brickSoundTennis();
+// })
 
 let rightArrowPressed = false;
 let leftArrowPressed = false;
@@ -64,7 +125,7 @@ let spaceKeyPressed = false;
 var canvas, ctx;
 
 
-// ====================>> MOVE THE PADDLE USING MOUSE
+// >>>>> MOVE THE PADDLE USING MOUSE
 
 // var mouseX = 0;
 // var mouseY = 0;
@@ -81,8 +142,9 @@ var canvas, ctx;
 
 // =================================================
 
-// +++++=== MOVE THE PADDLE USING ARROW KEYS
-// =================================================
+
+// >>>> MOVE THE PADDLE USING ARROW KEYS
+
 
 function keyDownHandler(e) {
     if (e.keyCode === 39) {
@@ -93,7 +155,7 @@ function keyDownHandler(e) {
     }
     else if (e.keyCode === 32) {
         spaceKeyPressed = true;
-        ballLaunch()
+        ballLaunch();
     }
 }
 function keyUpHandler(e) {
@@ -107,12 +169,15 @@ function keyUpHandler(e) {
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
+// =================================================
 
+
+// BRICKS
 
 function brickReset() {
     bricksLeft = 0;
     var i;
-    for (i = 0; i < 3 * BRICK_COLS; i++) {
+    for (i = 0; i < 4 * BRICK_COLS; i++) {
         brickGrid[i] = false;
     }
     for (; i < BRICK_COLS * BRICK_ROWS; i++) {
@@ -120,6 +185,9 @@ function brickReset() {
         bricksLeft++;
     } // end of for each brick
 } // end of brickReset func
+
+
+// LOADING WINDOW
 
 window.onload = function () {
     canvas = document.getElementById("gameCanvas");
@@ -132,6 +200,7 @@ window.onload = function () {
 
     brickReset();
     ballReset();
+    soundTrack();
 };
 
 function updateAll() {
@@ -146,15 +215,18 @@ function ballReset() {
     ballSpeedY = 0;
 }
 
-// ======= LAUCH THE BALL ON PRESS SpaceKEY
+
+
+// LAUCH THE BALL
 
 function ballLaunch() {
     if (ballSpeedX === 0 && ballSpeedY === 0) {
         ballSpeedX = -5;
         ballSpeedY = -7;
     }
-    soundTrack();
 }
+
+// BALL MOVEMENT
 
 function ballMove() {
     ballX += ballSpeedX;
@@ -189,6 +261,7 @@ function ballMove() {
     }
 }
 
+
 function isBrickAtColRow(col, row) {
     if (col >= 0 && col < BRICK_COLS && row >= 0 && row < BRICK_ROWS) {
         var brickIndexUnderCoord = rowColToArrayIndex(col, row);
@@ -210,9 +283,7 @@ function ballBrickHandling() {
             // console.log(bricksLeft);
             score++;
             brickSound();
-            // if(score > 4) {
-            //     soundTrack();
-            // }
+            brickSoundTennis();
 
             var prevBallX = ballX - ballSpeedX;
             var prevBallY = ballY - ballSpeedY;
@@ -349,7 +420,7 @@ function liveReset() {
 
 
 function drawAll() {
-    colorRect(0, 0, canvas.width, canvas.height, "black"); // clear screen
+    colorRect(0, 0, canvas.width, canvas.height, "silver"); // clear screen
 
     colorCircle(ballX, ballY, 10, "chartreuse"); // draw ball
 
