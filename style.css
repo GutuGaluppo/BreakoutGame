@@ -51,10 +51,10 @@ canvas {
 }
 
 .button:hover {
-  background-color: aqua;
+  background-color:purple;
   box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-  color: black;
-  transform: translateY(-7px);
+  color: white;
+  /* transform: translateY(-7px); */
 }
 
 .active{

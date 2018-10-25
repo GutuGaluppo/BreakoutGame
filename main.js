@@ -23,54 +23,62 @@ let fxAllowed = true;
 
 var backgroundAudio = new Audio("../soundFx/futuristic-game-ambience.wav");
 
-var ballLost = new Audio("../soundFx/finalGrunt.wav")
-// function ballLost() {
-//   var audio = new Audio("../soundFx/finalGrunt.wav");
-//   audio.play();
-//   audio.volume = 0.4;
-// }
+function ballLost() {
+    var ballLostVar = new Audio("../soundFx/finalGrunt.wav")
+    if (fxAllowed) {
+        ballLostVar.play();
+        ballLostVar.volume = 0.4;
+    } else console.log('false')
 
-var gameOverTrack = new Audio("../soundFx/GameOverTrack.wav")
-// function gameOverTrack() {
-//   var audio = new Audio("../soundFx/GameOverTrack.wav");
-//   audio.play();
-// }
+}
+
+function gameOverTrack() {
+    var gameOverTrackVar = new Audio("../soundFx/GameOverTrack.wav")
+    if (fxAllowed) {
+        gameOverTrackVar.play();
+    } else console.log('false')
+}
 
 /* var paddleSound = new Audio("../soundFx/grunt_1.wav") */
 function paddleSound() {
     var paddleSoundVar = new Audio("../soundFx/grunt_1.wav");
-    if (fxAllowed){
-        console.log("paddlesound")
+    if (fxAllowed) {
+        // console.log("paddlesound")
         paddleSoundVar.play();
+        paddleSoundVar.volume = 0.5;
     } else console.log("false")
-    paddleSoundVar.volume = 0.5;
 }
 
 /* var paddleSoundTennisVar = new Audio("../soundFx/grunt_1.wav") */
 function paddleSoundTennis() {
     var paddleSoundTennisVar = new Audio("../soundFx/tennisBall.wav");
-    if (fxAllowed){
-    console.log("paddlesound2")
-    paddleSoundTennisVar.play()
+    if (fxAllowed) {
+        // console.log("paddlesound2")
+        paddleSoundTennisVar.play()
     } else console.log("false")
 }
 function brickSound() {
-    var audio = new Audio("../soundFx/bubble.wav");
-    audio.play();
+    var brickSoundVar = new Audio("../soundFx/bubble.wav");
+    if (fxAllowed) {
+        brickSoundVar.play();
+    } else console.log('false')
 }
 
 function brickSoundTennis() {
-    var audio = new Audio("../soundFx/tennisBall2.wav");
-    audio.play();
-    audio.volume = 0.2;
+    var brickSoundTennisVar = new Audio("../soundFx/tennisBall2.wav");
+    if (fxAllowed) {
+        brickSoundTennisVar.play();
+        brickSoundTennisVar.volume = 0.2;
+    } else console.log('false')
 }
 
 function edgSound() {
-    var audio = new Audio("../soundFx/bubble-pop.wav");
-    audio.play();
-    audio.volume = 0.4;
+    var edgSoundVar = new Audio("../soundFx/bubble-pop.wav");
+    if (fxAllowed) {
+        edgSoundVar.play();
+        edgSoundVar.volume = 0.4;
+    } else console.log('false')
 }
-
 // CHANGE BUTTON
 // SETTING MUSIC AND REMOVING/ADDING CLASSES
 $("#musicBtn").click(function () {
@@ -90,7 +98,11 @@ $("#musicBtn").click(function () {
 });
 
 $("#fxBtn").click(function () {
-    if ($(".btn2").attr("class", "active")) {
+    if (!fxAllowed) {
+
+        $('#fxBtn').attr('class', 'active')
+    } else {
+        $('#fxBtn').attr('class', 'button btn2')
     }
 });
 
@@ -210,7 +222,7 @@ function ballLaunch() {
 function ballMove() {
     ballX += ballSpeedX;
     ballY += ballSpeedY;
-    
+
     if (ballX < 0 && ballSpeedX < 0.0) {
         //left
         ballSpeedX *= -1;
@@ -254,7 +266,7 @@ function ballBrickHandling() {
     var ballBrickCol = Math.floor(ballX / BRICK_W);
     var ballBrickRow = Math.floor(ballY / BRICK_H);
     var brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
-    
+
     if (ballBrickCol >= 0 && ballBrickCol < BRICK_COLS && ballBrickRow >= 0 && ballBrickRow < BRICK_ROWS) {
         if (isBrickAtColRow(ballBrickCol, ballBrickRow)) {
             brickGrid[brickIndexUnderBall] = false;
@@ -263,14 +275,14 @@ function ballBrickHandling() {
             score++;
             brickSound();
             brickSoundTennis();
-            
+
             var prevBallX = ballX - ballSpeedX;
             var prevBallY = ballY - ballSpeedY;
             var prevBrickCol = Math.floor(prevBallX / BRICK_W);
             var prevBrickRow = Math.floor(prevBallY / BRICK_H);
-            
+
             var bothTestsFailed = true;
-            
+
             if (prevBrickCol != ballBrickCol) {
                 if (isBrickAtColRow(prevBrickCol, ballBrickRow) == false) {
                     ballSpeedX *= -1;
@@ -283,7 +295,7 @@ function ballBrickHandling() {
                     bothTestsFailed = false;
                 }
             }
-            
+
             if (bothTestsFailed) {
                 // armpit case, prevents ball from going through
                 ballSpeedX *= -1;
@@ -309,68 +321,68 @@ function ballPaddleHandling() {
         ballY < paddleBottomEdgeY && // above bottom of paddle
         ballX > paddleLeftEdgeX && // right of the left side of paddle
         ballX < paddleRightEdgeX
-        ) {
-            // left of the left side of paddle
-            
-            ballSpeedY *= -1;
-            paddleSoundTennis();
-            paddleSound();
-            
-            var centerOfPaddleX = paddleX + PADDLE_WIDTH / 2;
-            var ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
-            ballSpeedX = ballDistFromPaddleCenterX * 0.35;
-            
-            if (bricksLeft == 0) {
-                brickReset();
-                // win();
-            } // out of bricks
-        } // ball center inside paddle
-    } // end of ballPaddleHandling
-    
-    function moveAll() {
-        ballMove();
-        
-        ballBrickHandling();
-        
-        ballPaddleHandling();
-        
-        movingAround();
-    }
-    
-    function rowColToArrayIndex(col, row) {
-        return col + BRICK_COLS * row;
-    }
-    
-    // DRAWING BRICKS
-    
-    function drawBricks() {
-        for (var eachRow = 0; eachRow < BRICK_ROWS; eachRow++) {
-            for (var eachCol = 0; eachCol < BRICK_COLS; eachCol++) {
-                var arrayIndex = rowColToArrayIndex(eachCol, eachRow);
-                
-                if (brickGrid[arrayIndex]) {
-                    colorRect(
-                        BRICK_W * eachCol,
-                        BRICK_H * eachRow,
-                        BRICK_W - BRICK_GAP,
-                        BRICK_H - BRICK_GAP,
-                        "aqua"
-                        );
-                    } // end of is this brick here
-                } // end of for each brick
-            } // end of for each row
-        } // end of drawBricks func
-        
-        
-        // =================================================
-        
-        // ======== SCORE ==========
-        
-        
-        function drawScore() {
-            ctx.font = "bold 15px Poiret One";
-            ctx.fillStyle = "#E0E2E4";
-            ctx.fillText("Score: " + score, 10, 20);
+    ) {
+        // left of the left side of paddle
+
+        ballSpeedY *= -1;
+        paddleSoundTennis();
+        paddleSound();
+
+        var centerOfPaddleX = paddleX + PADDLE_WIDTH / 2;
+        var ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
+        ballSpeedX = ballDistFromPaddleCenterX * 0.35;
+
+        if (bricksLeft == 0) {
+            brickReset();
+            // win();
+        } // out of bricks
+    } // ball center inside paddle
+} // end of ballPaddleHandling
+
+function moveAll() {
+    ballMove();
+
+    ballBrickHandling();
+
+    ballPaddleHandling();
+
+    movingAround();
+}
+
+function rowColToArrayIndex(col, row) {
+    return col + BRICK_COLS * row;
+}
+
+// DRAWING BRICKS
+
+function drawBricks() {
+    for (var eachRow = 0; eachRow < BRICK_ROWS; eachRow++) {
+        for (var eachCol = 0; eachCol < BRICK_COLS; eachCol++) {
+            var arrayIndex = rowColToArrayIndex(eachCol, eachRow);
+
+            if (brickGrid[arrayIndex]) {
+                colorRect(
+                    BRICK_W * eachCol,
+                    BRICK_H * eachRow,
+                    BRICK_W - BRICK_GAP,
+                    BRICK_H - BRICK_GAP,
+                    "aqua"
+                );
+            } // end of is this brick here
+        } // end of for each brick
+    } // end of for each row
+} // end of drawBricks func
+
+
+// =================================================
+
+// ======== SCORE ==========
+
+
+function drawScore() {
+    ctx.font = "bold 15px Poiret One";
+    ctx.fillStyle = "#E0E2E4";
+    ctx.fillText("Score: " + score, 10, 20);
 }
 function scoreReset() {
     score = 0;
@@ -391,7 +403,7 @@ function liveReset() {
 
 
 function drawAll() {
-    colorRect(0, 0, canvas.width, canvas.height, "black"); // clear screen
+    colorRect(0, 0, canvas.width, canvas.height, "#00000080"); // clear screen
 
     colorCircle(ballX, ballY, 10, "chartreuse"); // draw ball
 
