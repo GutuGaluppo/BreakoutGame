@@ -405,7 +405,7 @@ function liveReset() {
 function drawAll() {
     colorRect(0, 0, canvas.width, canvas.height, "#00000080"); // clear screen
 
-    colorCircle(ballX, ballY, 10, "chartreuse"); // draw ball
+    colorCircle(ballX, ballY, 10, "purple"); // draw ball
 
     colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, "DarkTurquoise");
 
