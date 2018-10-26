@@ -13,7 +13,7 @@ var bricksLeft = 0;
 var score = 0;
 var lives = 3;
 const PADDLE_WIDTH = 100;
-const PADDLE_THICKNESS = 10;
+const PADDLE_THICKNESS = 8;
 const PADDLE_DIST_FROM_EDGE = 40;
 var paddleX = 350;
 let musicPlaying = true;
@@ -386,9 +386,9 @@ document.addEventListener("keyup", keyUpHandler, false);
 
 
     function drawScore() {
-        ctx.font = "bold 15px Poiret One";
-        ctx.fillStyle = "#E0E2E4";
-        ctx.fillText("Score: " + score, 10, 20);
+        ctx.font = "bold 20px Oswald";
+        ctx.fillStyle = "aqua";
+        ctx.fillText("Score: " + score, 10, 30);
     }
     function scoreReset() {
         score = 0;
@@ -397,9 +397,9 @@ document.addEventListener("keyup", keyUpHandler, false);
     // =========== LIVES ============
 
     function drawLives() {
-        ctx.font = "bold 15px Poiret One";
-        ctx.fillStyle = "#E0E2E4";
-        ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
+        ctx.font = "bold 20px Oswald";
+        ctx.fillStyle = "aqua";
+        ctx.fillText("Lives: " + lives, canvas.width - 80, 40);
     }
 
     function liveReset() {
@@ -413,7 +413,7 @@ document.addEventListener("keyup", keyUpHandler, false);
 
         colorCircle(ballX, ballY, 10, "chartreuse"); // draw ball
 
-        colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, "DarkTurquoise");
+        colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, "aqua");
 
         drawScore();
         drawLives();
