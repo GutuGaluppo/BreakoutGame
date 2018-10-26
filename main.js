@@ -25,7 +25,7 @@ let winVariable = ""
 
 // SOUND FXs
 
-var backgroundAudio = new Audio("https://github.com/GutuGaluppo/BreakoutGame/blob/master/soundfx1/futuristic-game-ambience.wav");
+var backgroundAudio = new Audio("../soundfx1/futuristic-game-ambience.wav");
 
 
 function ballLost() {
