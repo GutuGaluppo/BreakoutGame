@@ -25,11 +25,11 @@ let winVariable = ""
 
 // SOUND FXs
 
-var backgroundAudio = new Audio("../soundFx/futuristic-game-ambience.wav");
+var backgroundAudio = new Audio("../soundfx1/futuristic-game-ambience.wav");
 
 
 function ballLost() {
-    var ballLostVar = new Audio("../soundFx/finalGrunt.wav");
+    var ballLostVar = new Audio("../soundfx1/finalgrunt1.wav");
     if (fxAllowed) {
         ballLostVar.play();
         ballLostVar.volume = 0.4;
@@ -37,7 +37,7 @@ function ballLost() {
 }
 
 function paddleSound() {
-    var paddleSoundVar = new Audio("../soundFx/grunt_1.wav");
+    var paddleSoundVar = new Audio("../soundfx1/grunt_1.wav");
     if (fxAllowed) {
         console.log("paddlesound")
         paddleSoundVar.play();
@@ -46,21 +46,21 @@ function paddleSound() {
 }
 
 function paddleSoundTennis() {
-    var paddleSoundTennisVar = new Audio("../soundFx/tennisBall.wav");
+    var paddleSoundTennisVar = new Audio("../soundfx1/tennisBall.wav");
     if (fxAllowed) {
         console.log("paddlesound2")
         paddleSoundTennisVar.play()
     } else console.log("false")
 }
 function brickSound() {
-    var brickSoundVar = new Audio("../soundFx/bubble.wav");
+    var brickSoundVar = new Audio("../soundfx1/bubble.wav");
     if (fxAllowed) {
         brickSoundVar.play();
     } else console.log('something')
 }
 
 function brickSoundTennis() {
-    var brickSoundTennisVar = new Audio("../soundFx/tennisBall2.wav");
+    var brickSoundTennisVar = new Audio("../soundfx1/tennisball3.wav");
     if (fxAllowed) {
         brickSoundTennisVar.play();
         brickSoundTennisVar.volume = 0.2;
@@ -68,7 +68,7 @@ function brickSoundTennis() {
 }
 
 function edgSound() {
-    var edgSoundVar = new Audio("../soundFx/bubble-pop.wav");
+    var edgSoundVar = new Audio("../soundfx1/bubble-pop.wav");
     if (fxAllowed) {
         edgSoundVar.play();
         edgSoundVar = 0.4;
@@ -76,7 +76,7 @@ function edgSound() {
 }
 
 function gameOverTrack() {
-    var gameOverTrackVar = new Audio("../soundFx/GameOverTrack.wav")
+    var gameOverTrackVar = new Audio("../soundfx1/gameovertrack1.wav")
     if (fxAllowed) {
         console.log("paddlesound")
         gameOverTrackVar.play();
@@ -85,7 +85,7 @@ function gameOverTrack() {
 }
 
 function youWinSound() {
-    var youWinSoundVar = new Audio("../soundFx/youwin.mp3")
+    var youWinSoundVar = new Audio("../soundfx1/youwin.mp3")
     if (fxAllowed) {
         console.log("paddlesound")
         youWinSoundVar.play();
@@ -94,7 +94,7 @@ function youWinSound() {
 }
 
 function crewSound() {
-    var crewSoundVar = new Audio("../soundFx/crew2.wav")
+    var crewSoundVar = new Audio("../soundfx1/crew2.wav")
     if (fxAllowed) {
         console.log("paddlesound")
         crewSoundVar.play();
